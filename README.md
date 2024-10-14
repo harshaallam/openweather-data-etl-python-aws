@@ -31,4 +31,24 @@ The OpenWeather API provides the current weather report for specified cities. Th
   ![Folders in transformed](transformed_folder.png)
 
 - Create a **lambda function** `openweather-data-extract` to request and API call for weather report of specified cities from OpenWeather API and store the data of every city in json file. Store the json file in `to_process/`. Refer `OpenWeather_Extract@lambda.py` for code.
-- Create another **lambda function** `openweather-json-transform-csv-load` to 
+- Create another **lambda function** `openweather-json-transform-csv-load`, that reads json file from `to_process/` and creates two csv files to store city realted data and weather realated data. Once done with the job execution move the file to `processed/`.
+- The weather and city csv files should be stored in `weather_data/` and `city_data/` folders respectively.
+- Create two crawlers `openweather_weather_crawler`, and `openweather_city_crawler` to crawl weather and city csv's to identify schemas and store metadata into Glue Data Catalogue and creates tables. Make sure to assign newly created IAM roles for both the crawlers, and assign a database if exists otherwise create a new one.
+- While creating a crawler, select *Crawl new sub-folders only* to avoid crawling all existing files.
+  ![Crawl sub-folders](crawl_sub.png)
+
+- Run the crawlers, once they are done, check the schemas in tables section to confirm their appropriate creation. If not modify the schemas accordingly.
+- ![Tables schema](tables_schema.png)
+  
+- Make sure to delete existing csv files in `weather_data/`, and `city_data/` to avoid displaying previous job executions data in Athena. As Athena has no storage on it's own and depends on data in S3 files. So, there is no provision to truncate the database tables before executing the job. The only way is to delete the files in S3 in the first step and then transform the data and then finally create csv files in `weather_data/`, and `city_data/`. Refer `OpenWeather_Transform@lambda.py` for code logic.
+- Create a folder to store AWS Athena query results `transformed/athena_query/` and provide the path in Athena settings.
+  ![Athena query path](athena_query.png)
+
+- Once done with all the individual steps, now its time to automate the process. Use cloundWatch event to trigger `openweather-data-extract` for required frequency.
+  ![CloudWatch trigger](cloudwatch.png)
+
+- Simillarly, create a trigger for `openweather-json-transform-csv-load` lambda function by using **S3** to execute the job whenever a file *puts* into S3 bucket. Make sure to select just *put* option to create trigger event. Otherwise, this trigger executes even for csv files creation, which leads to re-run the job right after its completion that leads to failure of the job.
+  ![S3 trigger conditon](s3_trigger.png)
+
+- Check for right population of data on Athena. It's time for querying on AWS Athena.
+  ![Athena query results](athena_result.png)
