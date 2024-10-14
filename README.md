@@ -3,7 +3,7 @@
 This project deals with weather data from OpenWeatherMap API. Python and AWS services are utilized to accomplish End-To_End ETL process and finally make up the data as per requirements for analysis.
 
 ## Architecture
-![Architecture](OpenWeather_Architecture.jpeg)
+![Architecture](OpenWeather_Architecture.png)
 
 ## Technologies Used:
 - **Programming Language:** Python
