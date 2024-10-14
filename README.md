@@ -9,6 +9,18 @@ This project demonstrates the extraction, transformation, and loading (ETL) of w
 ## Technologies Used:
 - **Programming Language:** Python
 
+### Python modules used
+
+```python
+import os
+import json
+import boto3
+import requests
+import pandas as pd
+from io import StringIO
+from datetime import datetime
+```
+
 ### AWS Cloud Services:
 1. **AWS S3 Bucket:** An object storage service that allows to store and retrieve any amount of data, including files, images, videos, and backups, using objects that consist of data, metadata, and unique identifiers.
 2. **AWS Lambda Function:** A serverless computing service that automatically runs code in response to events, scaling as needed without requiring the provisioning of servers.
