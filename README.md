@@ -52,3 +52,6 @@ The OpenWeather API provides the current weather report for specified cities. Th
 
 - Check for right population of data on Athena. It's time for querying on AWS Athena.
   ![Athena query results](athena_result.png)
+
+  <img width="1330" alt="athena_result" src="https://github.com/user-attachments/assets/05b8c896-86bf-4964-b986-6582ada5d4f8">
+
